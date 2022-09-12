@@ -7,12 +7,20 @@ import java.util.Date;
 
 @Entity
 public class Post {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String lead;
+    @Column(length=1000000)
+    @Lob
     private String body;
     private String author;
+    @Temporal(TemporalType.DATE)
     private Date date;
+
+    @ManyToOne
+    private Category category;
 
     public Post() {
         super();
@@ -27,8 +35,7 @@ public class Post {
         this.author = author;
         this.date = date;
     }
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public Long getId() {
         return id;
     }
@@ -53,8 +60,7 @@ public class Post {
         this.lead = lead;
     }
 
-    @Column(length=1000000)
-    @Lob
+
     public String getBody() {
         return body;
     }
@@ -71,7 +77,7 @@ public class Post {
         this.author = author;
     }
 
-    @Temporal(TemporalType.DATE)
+
     public Date getDate() {
         return date;
     }
@@ -79,6 +85,14 @@ public class Post {
     public String getDateStr() {
         DateFormat outputFormatter = new SimpleDateFormat("MM/dd/yyyy");
         return outputFormatter.format(this.date);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public void setDate(Date date) {
